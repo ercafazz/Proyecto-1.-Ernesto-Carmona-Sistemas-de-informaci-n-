@@ -16,13 +16,17 @@
             
             <button onclick="GenerarNumero(used, contador)">GENERAR NÚMERO</button>
             <label id="numero-generado">0</label>
-            <button id="Jugador1" onclick="displayMatrix()"></button>
-            <button id="Jugador2"></button>
-            <button id="Jugador3"></button>
-            <button id="Jugador4"></button>
+            <button id="Jugador1" onclick="displayMatrix('Matrix1')"></button>
+            <button id="Jugador2" onclick="displayMatrix('Matrix2')"></button>
+            <button id="Jugador3" onclick="displayMatrix('Matrix3')"></button>
+            <button id="Jugador4" onclick="displayMatrix('Matrix4')"></button>
+            
         </div>
-
-        <table></table>
+        <br><br>
+        <table id="Cartón">
+            <th></th><th></th><th></th><th></th><th></th>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+        </table>
     </body>
     <script>showNamesinMenu()</script>
 </html>

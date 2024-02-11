@@ -100,8 +100,42 @@ function CrearMatriz(a){
 }
 
 
-function displayMatrix()
+function displayMatrix(str)
 {
-    const a = localStorage.getItem("Matrix1");
-    console.log(a);
+    const tabla = document.getElementById("Cartón");
+    tabla.style.display = "table";
+    const string = localStorage.getItem(str);
+    const matrix = stringToMatrix(string);
+    const table = document.getElementById("Cartón");
+    table.innerHTML = "";
+
+    for (let i = 0; i < matrix.length; i++) {
+        const fila = document.createElement("tr");
+        for (let j = 0; j < matrix[i].length; j++) {
+          const celda = document.createElement("td");
+          celda.textContent = matrix[i][j];
+          fila.appendChild(celda);
+        }
+        table.appendChild(fila);
+      }
+}
+
+function stringToMatrix(str) {
+
+    const elements = str.split(",").map(Number); // Convertir la cadena en una matriz de números
+    const n = Math.sqrt(elements.length);
+    const matrix = [];
+    let index = 0;
+
+    // Llenar la matriz con los elementos de la cadena
+    for (let i = 0; i < n; i++) {
+        const row = [];
+        for (let j = 0; j < n; j++) {
+            row.push(elements[index]);
+            index++;
+        }
+        matrix.push(row);
+    }
+
+    return matrix;
 }
