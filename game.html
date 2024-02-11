@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="gameStyle.css">
+        <script src="functions.js"></script>
+    </head>
+
+    <body>
+        <h1>BINGO MANÍA</h1>
+        <div id="barra-horizontal">
+
+            <label>TURNO:</label>
+            <label id="contador">0</label>
+
+            <script>const used =[]; let contador = { valor: 0 };</script>
+            
+            <button onclick="GenerarNumero(used, contador)">GENERAR NÚMERO</button>
+            <label id="numero-generado">0</label>
+            <button id="Jugador1" onclick="displayMatrix()"></button>
+            <button id="Jugador2"></button>
+            <button id="Jugador3"></button>
+            <button id="Jugador4"></button>
+        </div>
+
+        <table></table>
+    </body>
+    <script>showNamesinMenu()</script>
+</html>

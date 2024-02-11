@@ -1,0 +1,67 @@
+h1 {
+    font-size: 100px; 
+    color:rgb(255, 255, 255); 
+    text-align: center;
+}
+
+label {
+    width: fit-content;
+    height: 60px; 
+    font-size: 40px;
+    background-color: #007bff; 
+    color: #ffffff; 
+    border: 3px solid #000; 
+    border-radius: 5px; 
+}
+
+button{
+    width:fit-content;
+    height: 60px; 
+    font-size: 18px;
+    background-color: #007bff;
+    color: #ffffff; 
+    border: 3px solid #000; 
+    border-radius: 5px; 
+    cursor:pointer;
+}
+
+body
+{
+    background-image: url('BingoBackground.jpeg'); 
+    background-size: cover; 
+}
+
+#barra-horizontal button{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    color: white;
+    margin-left: 10px;
+  }
+
+#barra-horizontal {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    color: white;
+    margin-left: 100px;
+  }
+
+#barra-horizontal label{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    color: white;
+    margin-left: 10px;
+  }
+
+  #barra-horizontal select{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    color: white;
+    margin-left: 10px;
+    width: 60px;
+    height: 60px; 
+  }
+
