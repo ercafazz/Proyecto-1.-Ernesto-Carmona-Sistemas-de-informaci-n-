@@ -37,6 +37,31 @@ button{
     cursor:pointer;
 }
 
+#Submit{
+    width:fit-content;
+    height: 60px; 
+    font-size: 18px;
+    background-color: #007bff;
+    color: #ffffff; 
+    border: 3px solid #000; 
+    border-radius: 5px; 
+    cursor:pointer;
+    animation: animate 2s linear infinite;
+  }
+  
+  @keyframes animate {
+    0%{
+      background-color: chartreuse;
+    }
+    0%{
+        background-color:coral;
+      }
+    0%{
+        background-color:crimson;
+      }
+  
+  }
+
 body
 {
     background-image: url('BingoBackground.jpeg'); 

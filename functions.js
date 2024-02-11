@@ -1,5 +1,3 @@
-
-
 function StartGame(){
     
     const user1 = document.getElementById("nombre1").value;
@@ -33,7 +31,6 @@ function StartGame(){
          matrix3 = CrearMatriz(5);
          matrix4 = CrearMatriz(5);
     }
-
     localStorage.setItem("Matrix1", matrix1);
     localStorage.setItem("Matrix2", matrix2);
     localStorage.setItem("Matrix3", matrix3);
@@ -65,8 +62,14 @@ function GenerarNumero(used, contador){
         if (!used.includes(n)){
             label.textContent=n;
             used.push(n);
+            localStorage.setItem("n-generado", n);
             contador.valor+=1;
             turno.textContent=contador.valor;
+            fillNumbers(n);
+            fixMatrix("Matrix1");
+            fixMatrix("Matrix2");
+            fixMatrix("Matrix3");
+            fixMatrix("Matrix4");
         }
         else{
             GenerarNumero(used, contador);
@@ -74,6 +77,7 @@ function GenerarNumero(used, contador){
     }
     else
     {
+        MostrarTablaDeGanadores();
         alert("El juego acabó");
         window.location.href = "landingPage.html";
     }
@@ -81,17 +85,16 @@ function GenerarNumero(used, contador){
 
 function CrearMatriz(a){
     const matriz = [];
+    const numerosUsados = new Set();
     for (let i = 0; i < a; i++) {
         const fila = [];
-        const numerosGenerados = []; // Array para almacenar los números generados en esta fila
-
         for (let j = 0; j < a; j++) {
             let numeroAleatorio = 0;
             do {
                 numeroAleatorio = Math.floor(Math.random() * 50) + 1;
-            } while (numerosGenerados.includes(numeroAleatorio)); // Verificar si el número ya ha sido generado
+            } while (numerosUsados.has(numeroAleatorio)); // Verificar si el número ya ha sido generado
 
-            numerosGenerados.push(numeroAleatorio); // Agregar el número a la lista de números generados
+            numerosUsados.add(numeroAleatorio); // Agregar el número a la lista de números generados
             fila.push(numeroAleatorio);
         }
         matriz.push(fila);
@@ -114,11 +117,14 @@ function displayMatrix(str)
         for (let j = 0; j < matrix[i].length; j++) {
           const celda = document.createElement("td");
           celda.textContent = matrix[i][j];
+          if (matrix[i][j] === 0) {
+            celda.style.backgroundColor = "yellow"; // Pintar el fondo de la celda en amarillo
+        }
           fila.appendChild(celda);
         }
         table.appendChild(fila);
       }
-}
+  }
 
 function stringToMatrix(str) {
 
@@ -139,3 +145,58 @@ function stringToMatrix(str) {
 
     return matrix;
 }
+
+function changeEquals(matrix, n){
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            // Verificar si el número es igual a 10
+            if (matrix[i][j] === n) {
+                // Cambiar el número por cero
+                matrix[i][j] = 0;
+            }
+        }
+    }
+
+    
+
+    return matrix;
+}
+function fillNumbers(n)
+{
+    let matrix1 = stringToMatrix(localStorage.getItem("Matrix1"));
+    let matrix2 = stringToMatrix(localStorage.getItem("Matrix2"));
+    let matrix3 = stringToMatrix(localStorage.getItem("Matrix3"));
+    let matrix4 = stringToMatrix(localStorage.getItem("Matrix4"));
+
+    matrix1 = changeEquals(matrix1, n);
+    localStorage.setItem("Matrix1", matrix1);
+    matrix2 = changeEquals(matrix2, n);
+    localStorage.setItem("Matrix2", matrix2);
+    matrix3 = changeEquals(matrix3, n);
+    localStorage.setItem("Matrix3", matrix3);
+    matrix4 = changeEquals(matrix4, n);
+    localStorage.setItem("Matrix4", matrix4);
+}
+
+function fixMatrix(str)
+{
+    const tabla = document.getElementById("Cartón");
+    tabla.style.display = "none";
+    const string = localStorage.getItem(str);
+    const matrix = stringToMatrix(string);
+    const table = document.getElementById("Cartón");
+    table.innerHTML = "";
+
+    for (let i = 0; i < matrix.length; i++) {
+        const fila = document.createElement("tr");
+        for (let j = 0; j < matrix[i].length; j++) {
+          const celda = document.createElement("td");
+          celda.textContent = matrix[i][j];
+          if (matrix[i][j] === 0) {
+            celda.style.backgroundColor = "yellow"; // Pintar el fondo de la celda en amarillo
+        }
+          fila.appendChild(celda);
+        }
+        table.appendChild(fila);
+      }
+  }

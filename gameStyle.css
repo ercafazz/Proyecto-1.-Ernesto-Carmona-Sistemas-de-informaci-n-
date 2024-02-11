@@ -25,7 +25,11 @@ button{
     cursor:pointer;
 }
 
-body
+button:hover {
+  background-color: rgb(212, 173, 230);
+}
+
+  body
 {
     background-image: url('BingoBackground.jpeg'); 
     background-size: cover; 
