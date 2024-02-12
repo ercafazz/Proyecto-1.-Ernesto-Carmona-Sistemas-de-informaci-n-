@@ -1,5 +1,4 @@
 function StartGame(){
-    
     const user1 = document.getElementById("nombre1").value;
     const user2 = document.getElementById("nombre2").value;
     const user3 = document.getElementById("nombre3").value;
@@ -52,6 +51,41 @@ function showNamesinMenu(){
     button4.textContent = localStorage.getItem("user4");
 }
 
+const CheckIfBingo = function()
+{
+    const m1 = stringToMatrix(localStorage.getItem("Matrix1"));
+    const m2 = stringToMatrix(localStorage.getItem("Matrix2"));
+    const m3 = stringToMatrix(localStorage.getItem("Matrix3"));
+    const m4 = stringToMatrix(localStorage.getItem("Matrix4"));
+
+    const m = [m1, m2, m3, m4];
+    
+    for (let i = 0; i < m.length; i++) {
+        const matriz = m[i];
+        let matrizConCeros = true; 
+        
+        for (let fila = 0; fila < matriz.length; fila++) {
+            for (let columna = 0; columna < matriz[fila].length; columna++) {
+                if (matriz[fila][columna] !== 0) {
+                    matrizConCeros = false;
+                    break;
+                }
+            }
+            if (!matrizConCeros) {
+                break;
+            }
+        }
+        
+        if (matrizConCeros) {
+            const user = "user" + (i + 1);
+            const winner = localStorage.getItem(user);
+            alert(winner.toUpperCase()+" LLENO TODOS LOS NÚMEROS, EL JUEGO HA ACABADO");
+            MostrarTablaDeGanadores();
+            break;
+        }
+    }
+}
+
 function GenerarNumero(used, contador){
     const label = document.getElementById("numero-generado");
     let turno = document.getElementById("contador");
@@ -70,6 +104,7 @@ function GenerarNumero(used, contador){
             fixMatrix("Matrix2");
             fixMatrix("Matrix3");
             fixMatrix("Matrix4");
+            CheckIfBingo();
         }
         else{
             GenerarNumero(used, contador);
@@ -78,8 +113,6 @@ function GenerarNumero(used, contador){
     else
     {
         MostrarTablaDeGanadores();
-        alert("El juego acabó");
-        window.location.href = "landingPage.html";
     }
 }
 
@@ -92,9 +125,9 @@ function CrearMatriz(a){
             let numeroAleatorio = 0;
             do {
                 numeroAleatorio = Math.floor(Math.random() * 50) + 1;
-            } while (numerosUsados.has(numeroAleatorio)); // Verificar si el número ya ha sido generado
+            } while (numerosUsados.has(numeroAleatorio)); 
 
-            numerosUsados.add(numeroAleatorio); // Agregar el número a la lista de números generados
+            numerosUsados.add(numeroAleatorio); 
             fila.push(numeroAleatorio);
         }
         matriz.push(fila);
@@ -118,7 +151,7 @@ function displayMatrix(str)
           const celda = document.createElement("td");
           celda.textContent = matrix[i][j];
           if (matrix[i][j] === 0) {
-            celda.style.backgroundColor = "yellow"; // Pintar el fondo de la celda en amarillo
+            celda.style.backgroundColor = "yellow";
         }
           fila.appendChild(celda);
         }
@@ -128,12 +161,11 @@ function displayMatrix(str)
 
 function stringToMatrix(str) {
 
-    const elements = str.split(",").map(Number); // Convertir la cadena en una matriz de números
+    const elements = str.split(",").map(Number);
     const n = Math.sqrt(elements.length);
     const matrix = [];
     let index = 0;
 
-    // Llenar la matriz con los elementos de la cadena
     for (let i = 0; i < n; i++) {
         const row = [];
         for (let j = 0; j < n; j++) {
@@ -149,18 +181,14 @@ function stringToMatrix(str) {
 function changeEquals(matrix, n){
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
-            // Verificar si el número es igual a 10
             if (matrix[i][j] === n) {
-                // Cambiar el número por cero
                 matrix[i][j] = 0;
             }
         }
     }
-
-    
-
     return matrix;
 }
+
 function fillNumbers(n)
 {
     let matrix1 = stringToMatrix(localStorage.getItem("Matrix1"));
@@ -193,10 +221,147 @@ function fixMatrix(str)
           const celda = document.createElement("td");
           celda.textContent = matrix[i][j];
           if (matrix[i][j] === 0) {
-            celda.style.backgroundColor = "yellow"; // Pintar el fondo de la celda en amarillo
+            celda.style.backgroundColor = "yellow";
         }
           fila.appendChild(celda);
         }
         table.appendChild(fila);
       }
   }
+
+function MostrarTablaDeGanadores()
+{
+
+    let user1 = localStorage.getItem("user1");
+    let user2 = localStorage.getItem("user2");
+    let user3 = localStorage.getItem("user3");
+    let user4 = localStorage.getItem("user4");
+
+    const m1 = stringToMatrix(localStorage.getItem("Matrix1"));
+    const m2 = stringToMatrix(localStorage.getItem("Matrix2"));
+    const m3 = stringToMatrix(localStorage.getItem("Matrix3"));
+    const m4 = stringToMatrix(localStorage.getItem("Matrix4"));
+
+    let podium = [];
+    
+    podium[0] = [getPoints(m1), user1];
+    podium[1] = [getPoints(m2), user2];
+    podium[2] = [getPoints(m3), user3];
+    podium[3] = [getPoints(m4), user4];
+
+    podium.sort((a, b) => b[0] - a[0]);
+
+    let mes1 ="";
+    if (podium[0][0]==12)
+    {
+        podium[0][0]+=5;
+        mes1 = podium[0][1].toUpperCase() +" ==>> "+ podium[0][0] + " PUNTOS (BINGO)\n";
+    }
+    else{
+        mes1 = podium[0][1].toUpperCase() +" ==>> "+ podium[0][0] + " PUNTOS\n";
+    }
+
+    let mes2 = podium[1][1].toUpperCase() +" ==>> "+ podium[1][0] + " PUNTOS\n";
+    let mes3 = podium[2][1].toUpperCase() +" ==>> "+ podium[2][0] + " PUNTOS\n";
+    let mes4 = podium[3][1].toUpperCase() +" ==>> "+ podium[3][0] + " PUNTOS\n\n";
+
+    let mes = "EL JUEGO HA ACABADO<br><br>"+mes1+"<br>"+mes2+"<br>"+mes3+"<br>"+mes4;
+
+    const cc = document.getElementById("CustomConfirm");
+    cc.innerHTML = mes;
+    showCustomConfirm();
+}
+
+function getPoints(m) {
+    let points = 0;
+
+    //Verificar filas
+    for (let i=0; i<m.length;i++)
+    {
+        let filaTieneCeros = true;
+        for (let j=0; j<m.length; j++)
+        {
+            if (m[i][j]!=0)
+            {
+                filaTieneCeros = false;
+                break;
+            }
+        }
+        if (filaTieneCeros)
+        {
+            points++;
+        }
+    }
+
+    //Verificar columnas
+    for (let j=0; j<m.length;j++)
+    {
+        let columnaTieneCeros = true;
+        for (let i=0; i<m.length; i++)
+        {
+            if (m[i][j]!=0)
+            {
+                columnaTieneCeros = false;
+                break;
+            }
+        }
+        if (columnaTieneCeros)
+        {
+            points++;
+        }
+    }
+
+    // Verificar diagonal#1
+    let diagonalHasZeros = true;
+    for (let i = 0; i < m.length; i++) {
+        if (m[i][i] != 0) {
+            diagonalHasZeros = false;
+            break;
+        }
+    }
+
+    if (diagonalHasZeros) {
+        points += 3;
+    }
+
+    //Verificar diagonal#2
+    let a = m.length-1;
+    let b = 0;
+    diagonalHasZeros = true;
+
+    while (a>=0)
+    {
+        if (m[a][b]!=0)
+        {
+            diagonalHasZeros = false;
+            break;
+        }
+        a-=1;
+        b+=1;
+    }
+
+    if (diagonalHasZeros) {
+        points += 3;
+    }
+    return points;
+}
+
+function showCustomConfirm() {
+    document.getElementById("CustomConfirm").style.display = 'block';
+    document.getElementById("on").style.display = 'block';
+    document.getElementById("hide").style.display = 'block';
+    document.getElementById("turno").style.display = "none";
+    document.getElementById("contador").style.display = "none";
+    document.getElementById("Generador").style.display = "none";
+    document.getElementById("numero-generado").style.display = "none";
+}
+
+function Salir()
+{
+    window.location.href = 'landingPage.html';
+}
+
+function Reiniciar()
+{
+    window.history.back();
+}

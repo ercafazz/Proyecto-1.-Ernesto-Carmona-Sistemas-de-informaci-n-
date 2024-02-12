@@ -3,27 +3,36 @@
     <head>
         <link rel="stylesheet" href="gameStyle.css">
         <script src="functions.js"></script>
+        <title>BINGOMANIA</title>
     </head>
 
     <body>
         <h1>BINGO MANÍA</h1>
         <div id="barra-horizontal">
 
-            <label>TURNO:</label>
+            <label id="turno">TURNO:</label>
             <label id="contador">0</label>
 
             <script>const used =[]; let contador = { valor: 0 };</script>
             
-            <button onclick="GenerarNumero(used, contador);">GENERAR NÚMERO</button>
+            <button id="Generador" onclick="GenerarNumero(used, contador);">GENERAR NÚMERO</button>
             <label id="numero-generado">0</label>
 
             <button id="Jugador1" onclick="displayMatrix('Matrix1')"></button>
             <button id="Jugador2" onclick="displayMatrix('Matrix2')"></button>
             <button id="Jugador3" onclick="displayMatrix('Matrix3')"></button>
             <button id="Jugador4" onclick="displayMatrix('Matrix4')"></button>
-            
+            <button id="Reiniciar" onclick="Reiniciar()">REINICIAR</button>
         </div>
         <br><br>
+
+        <label id="CustomConfirm" style="display: none;"></label>
+
+        <div id="custom-confirm-dialog" class="custom-confirm">
+            <button id="on" style="display: none;" onclick="Salir()">SALIR</button>
+            <button id="hide" style="display: none;" onclick="Reiniciar()">SEGUIR JUGANDO</button>
+        </div>
+    
         <table id="Cartón">
         </table>
     </body>
