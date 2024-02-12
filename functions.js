@@ -358,7 +358,7 @@ function showCustomConfirm() {
 
 function Salir()
 {
-    window.location.href = 'landingPage.html';
+    window.location.href = 'index.html';
 }
 
 function Reiniciar()
